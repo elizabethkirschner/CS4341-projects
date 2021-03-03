@@ -1,5 +1,6 @@
 # This is necessary to find the main code
 import sys
+#from ../estCharacter import
 sys.path.insert(0, '../../bomberman')
 sys.path.insert(1, '..')
 
@@ -10,7 +11,7 @@ from game import Game
 sys.path.insert(1, '../groupNN')
 
 # Uncomment this if you want the empty test character
-#from testcharacter import TestCharacter
+from variant1Char import TestCharacter
 
 # Uncomment this if you want the interactive character
 from interactivecharacter import InteractiveCharacter
@@ -21,16 +22,17 @@ g = Game.fromfile('map.txt')
 # TODO Add your character
 
 # Uncomment this if you want the test character
-# g.add_character(TestCharacter("me", # name
-#                               "C",  # avatar
-#                               0, 0  # position
-# ))
+
+g.add_character(TestCharacter("me", # name
+                               "C",  # avatar
+                               0, 0  # position
+ ).kindaInit())
 
 # Uncomment this if you want the interactive character
-g.add_character(InteractiveCharacter("me", # name
-                                     "C",  # avatar
-                                     0, 0  # position
-))
+#g.add_character(InteractiveCharacter("me", # name
+#                                     "C",  # avatar
+#                                     0, 0  # position
+#))
 
 # Run!
 

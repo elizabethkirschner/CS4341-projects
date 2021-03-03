@@ -8,5 +8,6 @@ from colorama import Fore, Back
 class TestCharacter(CharacterEntity):
 
     def do(self, wrld):
+        self.move(1,0)
         # Your code here
         pass
