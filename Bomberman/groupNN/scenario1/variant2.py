@@ -12,8 +12,10 @@ from monsters.stupid_monster import StupidMonster
 sys.path.insert(1, '../groupNN')
 from testcharacter import TestCharacter
 
+from variant2Char import TestCharacter
+
 # Create the game
-random.seed(123) # TODO Change this if you want different random choices
+random.seed(9494948584357394857) # TODO Change this if you want different random choices
 g = Game.fromfile('map.txt')
 g.add_monster(StupidMonster("stupid", # name
                             "S",      # avatar
@@ -22,9 +24,9 @@ g.add_monster(StupidMonster("stupid", # name
 
 # TODO Add your character
 g.add_character(TestCharacter("me", # name
-                              "C",  # avatar
-                              0, 0  # position
-))
+                               "C",  # avatar
+                               0, 0  # position
+ ).kindaInit())
 
 # Run!
-g.go()
+g.go(1)
