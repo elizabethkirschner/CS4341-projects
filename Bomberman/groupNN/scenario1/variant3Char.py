@@ -29,6 +29,7 @@ class TestCharacter(CharacterEntity):
         self.states["exitMoveY"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
         self.states["monMoveX"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
         self.states["monMoveY"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
+
         return self
     
     def orGreater5(self, val):
@@ -36,12 +37,21 @@ class TestCharacter(CharacterEntity):
             return 5
         return val
     
+    def moveVal(self, val):
+        val = val + 2;
+        if val > 5:
+            return 5
+        if val < 0:
+            return 0
+        return val
+    
     def getState(self, wrld):
-        self.states.dXExit.currentVal = self.orGreater5(7-self.x)
-        self.states.dYExit.currentVal = self.orGreater5(18-self.y)
+        print(self.states)
+        self.states['dXExit'].currentVal = self.moveVal(7-self.x)
+        self.states.dYExit.currentVal = self.moveVal(18-self.y)
         monsterPos = self.getMonsterPos(wrld)
-        self.states.dXMonsterDef.currentVal = self.orGreater5(monsterPos[0])
-        self.states.dYMonsterDef.currentVal = self.orGreater5(monsterPos[1])
+        self.states.dXMonsterDef.currentVal = self.moveVal(monsterPos[0])
+        self.states.dYMonsterDef.currentVal = self.moveVal(monsterPos[1])
         self.states.wallDown.currentVal = self.orGreater5(self.howFarWall(wrld, self.x, self.y, 0, 1))
         self.states.wallDownRight.currentVal = self.orGreater5(self.howFarWall(wrld, self.x, self.y, 1, 1))
         self.states.wallRight.currentVal = self.orGreater5(self.howFarWall(wrld, self.x, self.y, 1, 0))
@@ -52,10 +62,10 @@ class TestCharacter(CharacterEntity):
         self.states.wallDownLeft.currentVal = self.orGreater5(self.howFarWall(wrld, self.x, self.y, -1, 1))
         exitSearch = self.doSearch(wrld, 7, 18)
         monsterSearch = self.doSearch(wrld, monsterPos[0], monsterPos[1])
-        self.states.exitMoveX.currentVal = self.orGreater5(exitSearch[0][0])
-        self.states.exitMoveY.currentVal = self.orGreater5(exitSearch[0][1])
-        self.states.monMoveX.currentVal = self.orGreater5(monsterSearch[0][0])
-        self.states.monMoveY.currentVal = self.orGreater5(monsterSearch[0][1])
+        self.states.exitMoveX.currentVal = self.moveVal(exitSearch[0][0])
+        self.states.exitMoveY.currentVal = self.moveVal(exitSearch[0][1])
+        self.states.monMoveX.currentVal = self.moveVal(monsterSearch[0][0])
+        self.states.monMoveY.currentVal = self.moveVal(monsterSearch[0][1])
         
     
     def howFarWall(self, wrld, x, y, dx, dy):
