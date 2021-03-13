@@ -13,22 +13,23 @@ class TestCharacter(CharacterEntity):
     def kindaInit(self):
         self.states = {};
         self.actions = ["Down", "DownRight", "Right", "UpRight", "Up", "UpLeft", "Left", "DownLeft"]
-        self.states['dXExit'] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["dYExit"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["dXMonsterDef"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["dYMonsterDef"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["wallDown"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["wallDownRight"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["wallRight"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["wallUpRight"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["wallUp"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["wallUpLeft"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["wallLeft"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["wallDownLeft"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["exitMoveX"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["exitMoveY"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["monMoveX"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
-        self.states["monMoveY"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
+        #self.states['dXExit'] = {"allVals": [0, 1, 2, 3, 4, 5, 6, 7], "currentVal": 0, "table": np.zeros((8, len(self.actions))), "weight": 1}
+        self.states["dYExit"] = {"allVals": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], "currentVal": 0, "table": np.zeros((19, len(self.actions))), "weight": 1}
+        self.states["exitLength"] = {"allVals": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], "currentVal": 0, "table": np.zeros((31, len(self.actions))), "weight": 1}
+        #self.states["dXMonsterDef"] = {"allVals": [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((11, len(self.actions))), "weight": 1}
+        #self.states["dYMonsterDef"] = {"allVals": [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((11, len(self.actions))), "weight": 1}
+        #self.states["wallDown"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((6, len(self.actions))), "weight": 1}
+        #self.states["wallDownRight"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((6, len(self.actions))), "weight": 1}
+        #self.states["wallRight"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((6, len(self.actions))), "weight": 1}
+        #self.states["wallUpRight"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((6, len(self.actions))), "weight": 1}
+        #self.states["wallUp"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((6, len(self.actions))), "weight": 1}
+        #self.states["wallUpLeft"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((6, len(self.actions))), "weight": 1}
+        #self.states["wallLeft"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((6, len(self.actions))), "weight": 1}
+        #self.states["wallDownLeft"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((6, len(self.actions))), "weight": 1}
+        #self.states["exitMoveX"] = {"allVals": [-1, 0, 1], "currentVal": 0, "table": np.zeros((3, len(self.actions))), "weight": 1}
+        #self.states["exitMoveY"] = {"allVals": [-1, 0, 1], "currentVal": 0, "table": np.zeros((3, len(self.actions))), "weight": 1}
+        #self.states["monMoveX"] = {"allVals": [-1, 0, 1], "currentVal": 0, "table": np.zeros((3, len(self.actions))), "weight": 1}
+        #self.states["monMoveY"] = {"allVals": [-1, 0, 1], "currentVal": 0, "table": np.zeros((3, len(self.actions))), "weight": 1}
 
         return self
     
@@ -37,42 +38,76 @@ class TestCharacter(CharacterEntity):
             return 5
         return val
     
-    def moveVal(self, val):
-        val = val + 2;
-        if val > 5:
-            return 5
+    def deltaVal(self, val):
+        val = val + 5;
+        if val > 10:
+            return 10
         if val < 0:
             return 0
         return val
     
+    def moveVal(self, val):
+        val = val+1
+        if val > 2:
+            print("something is very wrong here")
+        return val
+     
+    
     def getState(self, wrld):
-        print(self.states)
-        self.states['dXExit'].currentVal = self.moveVal(7-self.x)
-        self.states.dYExit.currentVal = self.moveVal(18-self.y)
+        #self.states['dXExit']['currentVal'] = 7-self.x
+        self.states['dYExit']['currentVal'] = 18-self.y
         monsterPos = self.getMonsterPos(wrld)
-        self.states.dXMonsterDef.currentVal = self.moveVal(monsterPos[0])
-        self.states.dYMonsterDef.currentVal = self.moveVal(monsterPos[1])
-        self.states.wallDown.currentVal = self.orGreater5(self.howFarWall(wrld, self.x, self.y, 0, 1))
-        self.states.wallDownRight.currentVal = self.orGreater5(self.howFarWall(wrld, self.x, self.y, 1, 1))
-        self.states.wallRight.currentVal = self.orGreater5(self.howFarWall(wrld, self.x, self.y, 1, 0))
-        self.states.wallUpRight.currentVal = self.orGreater5(self.howFarWall(wrld, self.x, self.y, 1, -1))
-        self.states.wallUp.currentVal = self.orGreater5(self.howFarWall(wrld, self.x, self.y, 0, -1))
-        self.states.wallUpLeft.currentVal = self.orGreater5(self.howFarWall(wrld, self.x, self.y, -1, -1))
-        self.states.wallLeft.currentVal = self.orGreater5(self.howFarWall(wrld, self.x, self.y, -1, 0))
-        self.states.wallDownLeft.currentVal = self.orGreater5(self.howFarWall(wrld, self.x, self.y, -1, 1))
+        #self.states['dXMonsterDef']['currentVal'] = self.deltaVal(monsterPos[0])
+        #self.states['dYMonsterDef']['currentVal'] = self.deltaVal(monsterPos[1])
+        #self.states['wallDown']['currentVal'] = self.orGreater5(self.howFarWall(wrld, self.x, self.y, 0, 1))
+        #self.states['wallDownRight']['currentVal'] = self.orGreater5(self.howFarWall(wrld, self.x, self.y, 1, 1))
+        #self.states['wallRight']['currentVal'] = self.orGreater5(self.howFarWall(wrld, self.x, self.y, 1, 0))
+        #self.states['wallUpRight']['currentVal'] = self.orGreater5(self.howFarWall(wrld, self.x, self.y, 1, -1))
+        #self.states['wallUp']['currentVal'] = self.orGreater5(self.howFarWall(wrld, self.x, self.y, 0, -1))
+        #self.states['wallUpLeft']['currentVal'] = self.orGreater5(self.howFarWall(wrld, self.x, self.y, -1, -1))
+        #self.states['wallLeft']['currentVal'] = self.orGreater5(self.howFarWall(wrld, self.x, self.y, -1, 0))
+        #self.states['wallDownLeft']['currentVal'] = self.orGreater5(self.howFarWall(wrld, self.x, self.y, -1, 1))
         exitSearch = self.doSearch(wrld, 7, 18)
-        monsterSearch = self.doSearch(wrld, monsterPos[0], monsterPos[1])
-        self.states.exitMoveX.currentVal = self.moveVal(exitSearch[0][0])
-        self.states.exitMoveY.currentVal = self.moveVal(exitSearch[0][1])
-        self.states.monMoveX.currentVal = self.moveVal(monsterSearch[0][0])
-        self.states.monMoveY.currentVal = self.moveVal(monsterSearch[0][1])
+        if len(exitSearch) == 0:
+            exitSearch = [(0,0)]
+        self.states['exitLength']['currentVal'] = len(exitSearch)
+        #monsterSearch = self.doSearch(wrld, monsterPos[0], monsterPos[1])
+        #if len(monsterSearch) == 0:
+        #    monsterSearch = [(0,0)]
+        #self.states['exitMoveX']['currentVal'] = self.moveVal(exitSearch[0][0])
+        #self.states['exitMoveY']['currentVal'] = self.moveVal(exitSearch[0][1])
+        #self.states['monMoveX']['currentVal'] = self.moveVal(monsterSearch[0][0])
+        #self.states['monMoveY']['currentVal'] = self.moveVal(monsterSearch[0][1])  
         
+    def getAllActions(self, wrld):
+        ret = [];
+        if self.y < 18:
+            if not wrld.wall_at(self.x, self.y+1):
+                ret.append(0)
+        if self.x < 7:
+            if self.y < 18 and not wrld.wall_at(self.x+1, self.y+1):
+                ret.append(1)
+            if not wrld.wall_at(self.x+1, self.y):
+                ret.append(2)
+            if self.y > 0 and not wrld.wall_at(self.x+1, self.y-1):
+                ret.append(3)
+        if self.y > 0:
+            if not wrld.wall_at(self.x, self.y-1):
+                ret.append(4)
+        if self.x > 0:
+            if self.y < 18 and not wrld.wall_at(self.x-1, self.y+1):
+                ret.append(7)
+            if not wrld.wall_at(self.x-1, self.y):
+                ret.append(6)
+            if self.y > 0 and not wrld.wall_at(self.x-1, self.y-1):
+                ret.append(5)
+        return ret
     
     def howFarWall(self, wrld, x, y, dx, dy):
         if x<0 or x>7 or y<0 or y>18 or wrld.wall_at(x, y):
             return 0
         
-        return 1 + howFarWall(wrld, x+dx, y+dy, dx, dy)
+        return 1 + self.howFarWall(wrld, x+dx, y+dy, dx, dy)
         
     
     def getNeighbors(self, current, wrld):
@@ -108,6 +143,7 @@ class TestCharacter(CharacterEntity):
                     priority = new_cost + (x - next[0] + y - next[1])
                     frontier.put(next, priority)
                     came_from[self.getPos(next)] = current
+        return [(0,0)]
 
             
 
