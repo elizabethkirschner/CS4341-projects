@@ -12,7 +12,7 @@ from monsters.selfpreserving_monster import SelfPreservingMonster
 sys.path.insert(1, '../groupNN')
 from testcharacter import TestCharacter
 
-from variant2Char import TestCharacter
+from variant3CharMiniMax import TestCharacter
 
 # Create the game
 random.seed(4444777) # TODO Change this if you want different random choices

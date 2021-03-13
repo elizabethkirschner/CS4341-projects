@@ -6,6 +6,8 @@ from entity import CharacterEntity
 from colorama import Fore, Back
 from sensed_world import SensedWorld
 from queue import PriorityQueue
+import math
+import time
 
 class TestCharacter(CharacterEntity):
     def kindaInit(self):
@@ -25,11 +27,10 @@ class TestCharacter(CharacterEntity):
     
     def getPos(self, current):
         return (current[0], current[1])
-        
     
     def doSearch(self, wrld):
         frontier = PriorityQueue()
-        frontier.put((self.x, self.y, []))
+        frontier.put(0, (self.x, self.y, []))
         came_from = {}
         cost_so_far = {}
         came_from[(self.x, self.y)] = None
@@ -43,7 +44,7 @@ class TestCharacter(CharacterEntity):
                 new_cost = cost_so_far[self.getPos(current)] + 1
                 if self.getPos(next) not in cost_so_far or new_cost < cost_so_far[self.getPos(next)]:
                     cost_so_far[self.getPos(next)] = new_cost
-                    priority = new_cost + (7 - next[0] + 18 - next[1])
+                    priority = new_cost + math.sqrt((7 - next[0])*(7 - next[0]) + (18 - next[1])*(18 - next[1]))
                     frontier.put(next, priority)
                     came_from[self.getPos(next)] = current
 
@@ -58,5 +59,6 @@ class TestCharacter(CharacterEntity):
             self.hasDoneSearch = 1
         self.move(self.searchList[0][0], self.searchList[0][1])
         self.searchList.pop(0)
+        time.sleep(2)
         # Your code here
         pass

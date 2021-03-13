@@ -25,7 +25,7 @@ g = Game.fromfile('map.txt')
 
 g.add_character(TestCharacter("me", # name
                                "C",  # avatar
-                               0, 0  # position
+                               7, 0  # position
  ).kindaInit())
 
 # Uncomment this if you want the interactive character
