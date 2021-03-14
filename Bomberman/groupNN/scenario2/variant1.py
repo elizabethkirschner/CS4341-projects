@@ -8,7 +8,7 @@ from game import Game
 
 # TODO This is your code!
 sys.path.insert(1, '../groupNN')
-from testcharacter import TestCharacter
+from variant1Char import TestCharacter
 
 
 # Create the game
@@ -18,7 +18,7 @@ g = Game.fromfile('map.txt')
 g.add_character(TestCharacter("me", # name
                               "C",  # avatar
                               0, 0  # position
-))
+).kindaInit())
 
 # Run!
-g.go()
+g.go(1)
