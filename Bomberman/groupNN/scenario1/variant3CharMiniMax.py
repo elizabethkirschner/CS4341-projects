@@ -36,7 +36,7 @@ class TestCharacter(CharacterEntity):
             print("YO NO ACTION WAS SELECTED")
     
     def getAllActions(self, wrld, x, y):
-        ret = [];
+        ret = []
         if self.y < 18:
             if not wrld.wall_at(x, y+1):
                 ret.append(0)
@@ -167,18 +167,18 @@ class TestCharacter(CharacterEntity):
     
     def ExpectimaxSearch(self, wrld, depth):
         maxVal = float('-inf')
-        alpha = float('-inf')
-        beta = float('inf')
+        # alpha = float('-inf')
+        # beta = float('inf')
         maxAction = -1
         newWorlds = self.generateCharMoveWorlds(wrld)
         for i in newWorlds:
-            newVal = self.ExpValue(i[0], depth, alpha, beta)
+            newVal = self.ExpValue(i[0], depth)
             if maxVal < newVal:
                 maxVal = newVal
                 maxAction = i[1]
         return maxAction
     
-    def ExpValue(self, wrld, depth, alpha, beta):
+    def ExpValue(self, wrld, depth):
         monMoves = self.generateMonsterMoveWorlds(wrld)
         char = self.getCharInWorld(wrld)
         if wrld.exit_at(char.x, char.y):
@@ -186,18 +186,18 @@ class TestCharacter(CharacterEntity):
         if not wrld.monsters_at(char.x, char.y) == None:
             return -50000000
         v = 0
-        totalProb = 0;
+        totalProb = 0
         for i in monMoves:
             p = 1/len(monMoves)
-            v = v + p*self.MaxValue(i, depth-1, alpha, beta)
+            v = v + p*self.MaxValue(i, depth-1)
             totalProb += p
-            if beta < v:
-                beta = v
-            if not totalProb == 1 and v + 50*(1/totalProb) <= alpha:
-                return v
+            # if beta < v:
+            #     beta = v
+            # if not totalProb == 1 and v + 50*(1/totalProb) <= alpha:
+            #     return v
         return v
     
-    def MaxValue(self, wrld, depth, alpha, beta):
+    def MaxValue(self, wrld, depth):
         char = self.getCharInWorld(wrld)
         if wrld.exit_at(char.x, char.y):
             return 50
@@ -209,20 +209,16 @@ class TestCharacter(CharacterEntity):
         maxAction = -1
         newWorlds = self.generateCharMoveWorlds(wrld)
         for i in newWorlds:
-            newVal = self.ExpValue(i[0], depth, alpha, beta)
-            if maxVal < newVal:
+            newVal = self.ExpValue(i[0], depth)
+            if newVal > maxVal:
                 maxVal = newVal
-            if maxVal >= beta:
-                return maxVal
-            if maxVal > alpha:
-                alpha = maxVal
+            # if maxVal < newVal:
+            #     maxVal = newVal
+            # if maxVal >= beta:
+            #     return maxVal
+            # if maxVal > alpha:
+            #     alpha = maxVal
         return maxVal
-        
-            
-            
-            
-        
-    
         
     
     def getNeighbors(self, current, wrld):
@@ -238,29 +234,28 @@ class TestCharacter(CharacterEntity):
     def getPos(self, current):
         return (current[0], current[1])
         
-    
+
+
+            
     def doSearch(self, wrld, x, y):
         frontier = PriorityQueue()
-        frontier.put((self.x, self.y, []))
+        frontier.put((0, (self.x, self.y, [])))
         came_from = {}
         cost_so_far = {}
         came_from[(self.x, self.y)] = None
         cost_so_far[(self.x, self.y)] = 0
 
         while not frontier.empty():
-            current = frontier.get()
-            if current[0] == 7 and current[1] == 18:
+            current = frontier.get()[1]
+            if current[0] == x and current[1] == y:
                 return current[2]
             for next in self.getNeighbors(current, wrld):
                 new_cost = cost_so_far[self.getPos(current)] + 1
                 if self.getPos(next) not in cost_so_far or new_cost < cost_so_far[self.getPos(next)]:
                     cost_so_far[self.getPos(next)] = new_cost
-                    priority = new_cost + (x - next[0] + y - next[1])
-                    frontier.put(next, priority)
+                    priority = new_cost + math.sqrt((x - next[0])*(x - next[0]) + (y - next[1])*(y - next[1]))
+                    frontier.put((priority, next))
                     came_from[self.getPos(next)] = current
-        return [(0,0)]
-
-            
 
 
                 
@@ -279,8 +274,8 @@ class TestCharacter(CharacterEntity):
     def isCloseToMonster(self, wrld):
         monPos = self.getMonsterPos(wrld)
         if not monPos == None:
-            xDif = self.x - monPos[0];
-            yDif = self.y - monPos[1];
+            xDif = self.x - monPos[0]
+            yDif = self.y - monPos[1]
             if xDif < 4 and xDif > -4 and yDif < 4 and yDif > -4:
                 return (xDif/self.getDenom(xDif), yDif/self.getDenom(yDif))
         return None

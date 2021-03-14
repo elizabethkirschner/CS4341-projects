@@ -11,7 +11,7 @@ import numpy as np
 
 class TestCharacter(CharacterEntity):
     def kindaInit(self):
-        self.states = {};
+        self.states = {}
         self.actions = ["Down", "DownRight", "Right", "UpRight", "Up", "UpLeft", "Left", "DownLeft"]
         self.states['dXExit'] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}
         self.states["dYExit"] = {"allVals": [0, 1, 2, 3, 4, 5], "currentVal": 0, "table": np.zeros((len(self.actions), 6)), "weight": 0}

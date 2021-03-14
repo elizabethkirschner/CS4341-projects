@@ -30,14 +30,14 @@ class TestCharacter(CharacterEntity):
     
     def doSearch(self, wrld):
         frontier = PriorityQueue()
-        frontier.put(0, (self.x, self.y, []))
+        frontier.put((0, (self.x, self.y, [])))
         came_from = {}
         cost_so_far = {}
         came_from[(self.x, self.y)] = None
         cost_so_far[(self.x, self.y)] = 0
 
         while not frontier.empty():
-            current = frontier.get()
+            current = frontier.get()[1]
             if current[0] == 7 and current[1] == 18:
                 return current[2]
             for next in self.getNeighbors(current, wrld):
@@ -45,7 +45,7 @@ class TestCharacter(CharacterEntity):
                 if self.getPos(next) not in cost_so_far or new_cost < cost_so_far[self.getPos(next)]:
                     cost_so_far[self.getPos(next)] = new_cost
                     priority = new_cost + math.sqrt((7 - next[0])*(7 - next[0]) + (18 - next[1])*(18 - next[1]))
-                    frontier.put(next, priority)
+                    frontier.put((priority, next))
                     came_from[self.getPos(next)] = current
 
             
