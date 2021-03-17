@@ -258,7 +258,7 @@ class TestCharacter(CharacterEntity):
                 search = self.doSearch(wrld, char, monPos[0], monPos[1])
                 if search == None:
                     return (char.x - monPos[0])*(char.x - monPos[0]) + (char.y - monPos[1])*(char.y - monPos[1])
-                return len(self.doSearch(wrld, char, monPos[0], monPos[1])) + -(abs(char.x-3.5) + abs(char.y - 9))/20
+                return len(self.doSearch(wrld, char, monPos[0], monPos[1])) + -(abs(char.x-3.5) + abs(char.y - 9))/15
         maxVal = float('-inf')
         maxAction = -1
         newWorlds = self.generateCharMoveWorlds(char, wrld)
@@ -266,7 +266,7 @@ class TestCharacter(CharacterEntity):
             newVal = self.ExpValue(i[0], depth, state)
             if newVal > maxVal:
                 maxVal = newVal
-        return maxVal+(len(self.doSearch(wrld, char, monPos[0], monPos[1])) + -(abs(char.x-3.5) + abs(char.y - 9))/20) / (4-depth)
+        return maxVal+(len(self.doSearch(wrld, char, monPos[0], monPos[1])) + -(abs(char.x-3.5) + abs(char.y - 9))/15) / (4-depth)
         
     
     def getNeighbors(self, current, wrld):
@@ -359,7 +359,7 @@ class TestCharacter(CharacterEntity):
                     self.bombY = self.y
                         
         if self.state == 1: #if scared run away until bomb explodes
-            action = self.ExpectimaxSearch(wrld, 3, self.state)
+            action = self.ExpectimaxSearch(wrld, 2, self.state)
             actionVector = self.getActionVector(action)
             self.move(actionVector[0], actionVector[1])
             self.bombTimer += 1
