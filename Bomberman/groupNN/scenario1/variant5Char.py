@@ -67,7 +67,8 @@ class TestCharacter(CharacterEntity):
                 ret.append(6)
             if y > 0 and not wrld.wall_at(x-1, y-1) and not wrld.explosion_at(x-1, y-1) and not self.willBeInBlast(wrld, x-1, y-1, 2):
                 ret.append(5)
-        ret.append(8)
+        if not wrld.explosion_at(x, y) and not self.willBeInBlast(wrld, x, y, 2):
+            ret.append(8)
         return ret
     
     def getCharInWorld(self, wrld):
