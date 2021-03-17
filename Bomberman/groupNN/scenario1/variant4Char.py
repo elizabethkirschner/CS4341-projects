@@ -238,18 +238,15 @@ class TestCharacter(CharacterEntity):
             p = 1/len(monMoves)
             v = v + p*self.MaxValue(i, depth-1, state)
             totalProb += p
-            # if beta < v:
-            #     beta = v
-            # if not totalProb == 1 and v + 50*(1/totalProb) <= alpha:
-            #     return v
         return v
     
     def MaxValue(self, wrld, depth, state):
         char = self.getCharInWorld(wrld)
-        if wrld.exit_at(char.x, char.y):
-            return 50000000000000000
-        if not wrld.monsters_at(char.x, char.y) == None:
-            return -5000000000000000
+        monPos = self.getMonsterPos(wrld)
+        # if wrld.exit_at(char.x, char.y):
+        #     return 50000000000000000
+        # if not wrld.monsters_at(char.x, char.y) == None:
+        #     return -5000000000000000
         if depth <= 0:
             if state == 0:
                 search = self.doSearch(wrld, char, 7, 18)
@@ -261,7 +258,7 @@ class TestCharacter(CharacterEntity):
                 search = self.doSearch(wrld, char, monPos[0], monPos[1])
                 if search == None:
                     return (char.x - monPos[0])*(char.x - monPos[0]) + (char.y - monPos[1])*(char.y - monPos[1])
-                return -100/len(self.doSearch(wrld, char, monPos[0], monPos[1])) + (char.x - monPos[0])*(char.x - monPos[0]) + (char.y - monPos[1])*(char.y - monPos[1])
+                return len(self.doSearch(wrld, char, monPos[0], monPos[1])) + -(abs(char.x-3.5) + abs(char.y - 9))/20
         maxVal = float('-inf')
         maxAction = -1
         newWorlds = self.generateCharMoveWorlds(char, wrld)
@@ -269,13 +266,7 @@ class TestCharacter(CharacterEntity):
             newVal = self.ExpValue(i[0], depth, state)
             if newVal > maxVal:
                 maxVal = newVal
-            # if maxVal < newVal:
-            #     maxVal = newVal
-            # if maxVal >= beta:
-            #     return maxVal
-            # if maxVal > alpha:
-            #     alpha = maxVal
-        return maxVal
+        return maxVal+(len(self.doSearch(wrld, char, monPos[0], monPos[1])) + -(abs(char.x-3.5) + abs(char.y - 9))/20) / (4-depth)
         
     
     def getNeighbors(self, current, wrld):
@@ -356,7 +347,7 @@ class TestCharacter(CharacterEntity):
                 search = self.doSearch(wrld, self, 7, 18)
                 yVal = 18
                 while search == None:
-                    yVal -= 1;
+                    yVal -= 1
                     search = self.doSearch(wrld, self, 1, yVal)
                 self.move(search[0][0], search[0][1])
                 if search == [(0,0)]:
@@ -368,7 +359,7 @@ class TestCharacter(CharacterEntity):
                     self.bombY = self.y
                         
         if self.state == 1: #if scared run away until bomb explodes
-            action = self.ExpectimaxSearch(wrld, 2, self.state)
+            action = self.ExpectimaxSearch(wrld, 3, self.state)
             actionVector = self.getActionVector(action)
             self.move(actionVector[0], actionVector[1])
             self.bombTimer += 1

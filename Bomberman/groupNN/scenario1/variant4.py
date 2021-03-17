@@ -15,7 +15,7 @@ from testcharacter import TestCharacter
 from variant4Char import TestCharacter
 
 # Create the game
-random.seed(745642) # TODO Change this if you want different random choices
+random.seed(2) # TODO Change this if you want different random choices
 g = Game.fromfile('map.txt')
 g.add_monster(SelfPreservingMonster("aggressive", # name
                                     "A",          # avatar
