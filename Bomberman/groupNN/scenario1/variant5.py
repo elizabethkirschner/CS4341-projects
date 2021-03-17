@@ -11,10 +11,10 @@ from monsters.selfpreserving_monster import SelfPreservingMonster
 
 # TODO This is your code!
 sys.path.insert(1, '../groupNN')
-from variant4Char import TestCharacter
+from variant5Char import TestCharacter
 
 # Create the game
-random.seed(7877878887) # TODO Change this if you want different random choices
+random.seed(778455546998521325445) # TODO Change this if you want different random choices
 g = Game.fromfile('map.txt')
 g.add_monster(StupidMonster("stupid", # name
                             "S",      # avatar

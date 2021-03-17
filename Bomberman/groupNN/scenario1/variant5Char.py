@@ -46,7 +46,7 @@ class TestCharacter(CharacterEntity):
     
     def getAllActions(self, wrld, x, y):
         ret = []
-        ret.append(8)
+        #ret.append(8)
         if y < 18:
             if not wrld.wall_at(x, y+1) and not wrld.explosion_at(x, y+1) and not self.willBeInBlast(wrld, x, y+1, 2):
                 ret.append(0)
@@ -84,8 +84,10 @@ class TestCharacter(CharacterEntity):
         def sortValue(monster):
             search = self.doSearch(wrld, char, monster.x, monster.y)
             if not search == None:
-                return len(search)
-            return float('inf')
+                if monster.avatar == 'A':
+                    return -len(search)/6
+                return -len(search)
+            return float('-inf')
         sorted(monsters, key = sortValue)
         return monsters
     
@@ -237,13 +239,13 @@ class TestCharacter(CharacterEntity):
         char = self.getCharInWorld(wrld)
         if wrld.exit_at(char.x, char.y):
             return 50000000000000000
-        if self.isMonsterXAway(char, wrld, 5-depth):
+        if self.isMonsterXAway(char, wrld, 3-depth):
             return -50000000000000000*depth
         if not wrld.monsters_at(char.x, char.y) == None:
             return -50000000000000000
         if wrld.explosion_at(char.x, char.y):
             return -50000000000000000
-        if self.willBeInBlast(wrld, char.x, char.y, 4-depth):
+        if self.willBeInBlast(wrld, char.x, char.y, 3-depth):
             return -500000000000000000
         v = 0
         totalProb = 0
@@ -273,8 +275,8 @@ class TestCharacter(CharacterEntity):
                 monPos = self.getMonsterPos(wrld, char)
                 search = self.doSearch(wrld, char, monPos[0], monPos[1])
                 if search == None:
-                    return (char.x - monPos[0])*(char.x - monPos[0]) + (char.y - monPos[1])*(char.y - monPos[1])
-                return -100/len(self.doSearch(wrld, char, monPos[0], monPos[1])) + (char.x - monPos[0])*(char.x - monPos[0]) + (char.y - monPos[1])*(char.y - monPos[1])
+                    return 1*((char.x - monPos[0])*(char.x - monPos[0]) + (char.y - monPos[1])*(char.y - monPos[1]))
+                return -100/len(self.doSearch(wrld, char, monPos[0], monPos[1])) + 1*((char.x - monPos[0])*(char.x - monPos[0]) + (char.y - monPos[1])*(char.y - monPos[1]))
         maxVal = float('-inf')
         maxAction = -1
         newWorlds = self.generateCharMoveWorlds(char, wrld)
@@ -349,7 +351,7 @@ class TestCharacter(CharacterEntity):
     
     def do(self, wrld):
         if self.state == 0: #exploring
-            if self.isMonsterXAway(self, wrld, 5): #if close to monster, place bomb because scared
+            if self.isMonsterXAway(self, wrld, 4): #if close to monster, place bomb because scared
                 self.state = 1
                 self.place_bomb()
                 self.bombTimer = 0
@@ -372,7 +374,7 @@ class TestCharacter(CharacterEntity):
                     self.bombY = self.y
                         
         if self.state == 1: #if scared run away until bomb explodes
-            action = self.ExpectimaxSearch(wrld, 2, self.state)
+            action = self.ExpectimaxSearch(wrld, 3, self.state)
             actionVector = self.getActionVector(action)
             self.move(actionVector[0], actionVector[1])
             self.bombTimer += 1
