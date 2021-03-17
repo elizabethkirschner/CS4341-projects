@@ -241,8 +241,8 @@ class TestCharacter(CharacterEntity):
         char = self.getCharInWorld(wrld)
         if wrld.exit_at(char.x, char.y):
             return 50000000000000000
-        #if self.isMonsterXAway(char, wrld, 3-depth):
-            #return -50000000000000000*depth
+        if self.isMonsterXAway(char, wrld, 3-depth):
+            return -50000000000000000*depth
         #if not wrld.monsters_at(char.x, char.y) == None:
             #return -50000000000000000
         #if wrld.explosion_at(char.x, char.y):
@@ -354,7 +354,7 @@ class TestCharacter(CharacterEntity):
     
     def do(self, wrld):
         if self.state == 0: #exploring
-            if self.isMonsterXAway(self, wrld, 4): #if close to monster, place bomb because scared
+            if self.isMonsterXAway(self, wrld, 5): #if close to monster, place bomb because scared
                 self.state = 1
                 self.place_bomb()
                 self.bombTimer = 0
