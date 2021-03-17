@@ -67,6 +67,7 @@ class TestCharacter(CharacterEntity):
                 ret.append(6)
             if y > 0 and not wrld.wall_at(x-1, y-1) and not wrld.explosion_at(x-1, y-1) and not self.willBeInBlast(wrld, x-1, y-1, 2):
                 ret.append(5)
+        ret.append(8)
         return ret
     
     def getCharInWorld(self, wrld):
@@ -85,10 +86,10 @@ class TestCharacter(CharacterEntity):
             search = self.doSearch(wrld, char, monster.x, monster.y)
             if not search == None:
                 if monster.avatar == 'A':
-                    return -len(search)/6
-                return -len(search)
+                    return len(search)
+                return len(search)
             return float('-inf')
-        sorted(monsters, key = sortValue)
+        monsters = sorted(monsters, key = sortValue)
         return monsters
     
     def getAllMonstersInWorld(self, char, wrld):
@@ -239,14 +240,14 @@ class TestCharacter(CharacterEntity):
         char = self.getCharInWorld(wrld)
         if wrld.exit_at(char.x, char.y):
             return 50000000000000000
-        if self.isMonsterXAway(char, wrld, 3-depth):
-            return -50000000000000000*depth
-        if not wrld.monsters_at(char.x, char.y) == None:
-            return -50000000000000000
-        if wrld.explosion_at(char.x, char.y):
-            return -50000000000000000
-        if self.willBeInBlast(wrld, char.x, char.y, 3-depth):
-            return -500000000000000000
+        #if self.isMonsterXAway(char, wrld, 3-depth):
+            #return -50000000000000000*depth
+        #if not wrld.monsters_at(char.x, char.y) == None:
+            #return -50000000000000000
+        #if wrld.explosion_at(char.x, char.y):
+            #return -50000000000000000
+        #if self.willBeInBlast(wrld, char.x, char.y, 3-depth):
+            #return -500000000000000000
         v = 0
         totalProb = 0
         for i in monMoves:
@@ -261,10 +262,10 @@ class TestCharacter(CharacterEntity):
     
     def MaxValue(self, wrld, depth, state):
         char = self.getCharInWorld(wrld)
-        if wrld.exit_at(char.x, char.y):
-            return 50000000000000000
-        if not wrld.monsters_at(char.x, char.y) == None:
-            return -5000000000000000
+        #if wrld.exit_at(char.x, char.y):
+            #return 50000000000000000
+        #if not wrld.monsters_at(char.x, char.y) == None:
+            #return -5000000000000000
         if depth <= 0:
             if state == 0:
                 search = self.doSearch(wrld, char, 7, 18)
@@ -273,10 +274,11 @@ class TestCharacter(CharacterEntity):
                 return 100/len(self.doSearch(wrld, char, 7, 18))
             else:
                 monPos = self.getMonsterPos(wrld, char)
+                print(monPos)
                 search = self.doSearch(wrld, char, monPos[0], monPos[1])
                 if search == None:
-                    return 1*((char.x - monPos[0])*(char.x - monPos[0]) + (char.y - monPos[1])*(char.y - monPos[1]))
-                return -100/len(self.doSearch(wrld, char, monPos[0], monPos[1])) + 1*((char.x - monPos[0])*(char.x - monPos[0]) + (char.y - monPos[1])*(char.y - monPos[1]))
+                    return 10*((char.x - monPos[0])*(char.x - monPos[0]) + (char.y - monPos[1])*(char.y - monPos[1]))
+                return -100/len(self.doSearch(wrld, char, monPos[0], monPos[1])) + 10*((char.x - monPos[0])*(char.x - monPos[0]) + (char.y - monPos[1])*(char.y - monPos[1]))
         maxVal = float('-inf')
         maxAction = -1
         newWorlds = self.generateCharMoveWorlds(char, wrld)
@@ -374,7 +376,7 @@ class TestCharacter(CharacterEntity):
                     self.bombY = self.y
                         
         if self.state == 1: #if scared run away until bomb explodes
-            action = self.ExpectimaxSearch(wrld, 3, self.state)
+            action = self.ExpectimaxSearch(wrld, 2, self.state)
             actionVector = self.getActionVector(action)
             self.move(actionVector[0], actionVector[1])
             self.bombTimer += 1
