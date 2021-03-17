@@ -188,7 +188,7 @@ class TestCharacter(CharacterEntity):
         for i in range(-x, x):
             for j in range(-x, x):
                 if wrld.monsters_at(char.x+i, char.y+j):
-                    search = self.doSearch(wrld, char, char.x+i, char.y+j)
+                    search = self.doSearch(wrld, char, char.x+i, char.y+j, False)
                     if not search == None and len(search) <= x:
                         return True
         return False
@@ -249,16 +249,16 @@ class TestCharacter(CharacterEntity):
         #     return -5000000000000000
         if depth <= 0:
             if state == 0:
-                search = self.doSearch(wrld, char, 7, 18)
+                search = self.doSearch(wrld, char, 7, 18, False)
                 if search == None:
                     return 0
-                return 100/len(self.doSearch(wrld, char, 7, 18))
+                return 100/len(self.doSearch(wrld, char, 7, 18, False))
             else:
                 monPos = self.getMonsterPos(wrld)
-                search = self.doSearch(wrld, char, monPos[0], monPos[1])
+                search = self.doSearch(wrld, char, monPos[0], monPos[1], False)
                 if search == None:
                     return (char.x - monPos[0])*(char.x - monPos[0]) + (char.y - monPos[1])*(char.y - monPos[1])
-                return len(self.doSearch(wrld, char, monPos[0], monPos[1])) + -(abs(char.x-3.5) + abs(char.y - 9))/15
+                return len(self.doSearch(wrld, char, monPos[0], monPos[1], False)) + -(abs(char.x-3.5) + abs(char.y - 9))/15
         maxVal = float('-inf')
         maxAction = -1
         newWorlds = self.generateCharMoveWorlds(char, wrld)
@@ -266,14 +266,14 @@ class TestCharacter(CharacterEntity):
             newVal = self.ExpValue(i[0], depth, state)
             if newVal > maxVal:
                 maxVal = newVal
-        return maxVal+(len(self.doSearch(wrld, char, monPos[0], monPos[1])) + -(abs(char.x-3.5) + abs(char.y - 9))/15) / (4-depth)
+        return maxVal+(len(self.doSearch(wrld, char, monPos[0], monPos[1], False)) + -(abs(char.x-3.5) + abs(char.y - 9))/15) / (4-depth)
         
     
-    def getNeighbors(self, current, wrld):
+    def getNeighbors(self, current, wrld, considerFire):
         retList = []
         for dx in [-1, 0, 1]:
             for dy in [-1, 0, 1]:
-                if not (current[0]+dx < 0 or current[0]+dx > 7 or current[1]+dy < 0 or current[1]+dy > 18) and not wrld.wall_at(current[0]+dx, current[1]+dy):
+                if not (current[0]+dx < 0 or current[0]+dx > 7 or current[1]+dy < 0 or current[1]+dy > 18) and not wrld.wall_at(current[0]+dx, current[1]+dy) and not (self.willBeInBlast(wrld, current[0]+dx, current[1]+dy, 2) and considerFire):
                     copyList = json.loads(json.dumps(current[2]))
                     copyList.append((dx, dy))
                     retList.append((current[0]+dx, current[1]+dy, copyList))
@@ -285,7 +285,7 @@ class TestCharacter(CharacterEntity):
 
 
             
-    def doSearch(self, wrld, char, x, y):
+    def doSearch(self, wrld, char, x, y, considerFire):
         frontier = PriorityQueue()
         frontier.put((0, (char.x, char.y, [])))
         came_from = {}
@@ -299,7 +299,7 @@ class TestCharacter(CharacterEntity):
                 if len(current[2]) == 0:
                     return [(0, 0)]
                 return current[2]
-            for next in self.getNeighbors(current, wrld):
+            for next in self.getNeighbors(current, wrld, considerFire):
                 extracost = 1
                 if wrld.wall_at(self.getPos(next)[0], self.getPos(next)[1]):
                     extracost = 100
@@ -344,24 +344,30 @@ class TestCharacter(CharacterEntity):
                 self.bombX = self.x
                 self.bombY = self.y
             else: #otherwise explore
-                search = self.doSearch(wrld, self, 7, 18)
+                search = self.doSearch(wrld, self, 7, 18, True)
                 yVal = 18
                 while search == None:
                     yVal -= 1
-                    search = self.doSearch(wrld, self, 1, yVal)
+                    search = self.doSearch(wrld, self, 1, yVal, True)
                 self.move(search[0][0], search[0][1])
                 if search == [(0,0)]:
                     self.state = 1
-                    self.place_bomb()
-                    self.bombTimer = 0
-                    self.bombActive = 1
-                    self.bombX = self.x
-                    self.bombY = self.y
+                    if self.bombActive == 0:
+                        self.place_bomb()
+                        self.bombTimer = 0
+                        self.bombActive = 1
+                        self.bombX = self.x
+                        self.bombY = self.y
                         
         if self.state == 1: #if scared run away until bomb explodes
+            search = self.doSearch(wrld, self, 7, 18, True)
             action = self.ExpectimaxSearch(wrld, 2, self.state)
             actionVector = self.getActionVector(action)
             self.move(actionVector[0], actionVector[1])
+            if not search == None and len(search) < 4:
+                self.state = 0
+            
+        if self.bombActive == 1:
             self.bombTimer += 1
             if self.bombTimer > 14:
                 self.state = 0
