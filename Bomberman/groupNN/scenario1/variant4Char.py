@@ -258,7 +258,7 @@ class TestCharacter(CharacterEntity):
                 search = self.doSearch(wrld, char, monPos[0], monPos[1], False)
                 if search == None:
                     return (char.x - monPos[0])*(char.x - monPos[0]) + (char.y - monPos[1])*(char.y - monPos[1])
-                return len(self.doSearch(wrld, char, monPos[0], monPos[1], False)) + -(abs(char.x-3.5) + abs(char.y - 9))/15
+                return len(self.doSearch(wrld, char, monPos[0], monPos[1], False)) + -(abs(char.x-3.5)*1.5 + abs(char.y - 9)/2)/15
         maxVal = float('-inf')
         maxAction = -1
         newWorlds = self.generateCharMoveWorlds(char, wrld)
@@ -266,7 +266,7 @@ class TestCharacter(CharacterEntity):
             newVal = self.ExpValue(i[0], depth, state)
             if newVal > maxVal:
                 maxVal = newVal
-        return maxVal+(len(self.doSearch(wrld, char, monPos[0], monPos[1], False)) + -(abs(char.x-3.5) + abs(char.y - 9))/15) / (4-depth)
+        return maxVal+(len(self.doSearch(wrld, char, monPos[0], monPos[1], False)) + -(abs(char.x-3.5) + abs(char.y - 9)/2)/15) / (4-depth)
         
     
     def getNeighbors(self, current, wrld, considerFire):
