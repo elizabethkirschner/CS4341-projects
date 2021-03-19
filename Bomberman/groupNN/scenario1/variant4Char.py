@@ -266,6 +266,9 @@ class TestCharacter(CharacterEntity):
             newVal = self.ExpValue(i[0], depth, state)
             if newVal > maxVal:
                 maxVal = newVal
+        search = self.doSearch(wrld, char, monPos[0], monPos[1], False)
+        if search == None:
+            return maxVal
         return maxVal+(len(self.doSearch(wrld, char, monPos[0], monPos[1], False)) + -(abs(char.x-3.5) + abs(char.y - 9)/2)/15) / (4-depth)
         
     
@@ -348,7 +351,7 @@ class TestCharacter(CharacterEntity):
                 yVal = 18
                 while search == None:
                     yVal -= 1
-                    search = self.doSearch(wrld, self, 1, yVal, True)
+                    search = self.doSearch(wrld, self, 7, yVal, True)
                 self.move(search[0][0], search[0][1])
                 if search == [(0,0)]:
                     self.state = 1
