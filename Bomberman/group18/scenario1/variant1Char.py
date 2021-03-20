@@ -59,6 +59,6 @@ class TestCharacter(CharacterEntity):
             self.hasDoneSearch = 1
         self.move(self.searchList[0][0], self.searchList[0][1])
         self.searchList.pop(0)
-        time.sleep(2)
+        #time.sleep(2)
         # Your code here
         pass

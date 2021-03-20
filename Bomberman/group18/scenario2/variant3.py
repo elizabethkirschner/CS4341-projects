@@ -9,11 +9,11 @@ from game import Game
 from monsters.selfpreserving_monster import SelfPreservingMonster
 
 # TODO This is your code!
-sys.path.insert(1, '../groupNN')
-from variant4CharMiniMax import TestCharacter
+sys.path.insert(1, '../group18')
+from variant4Char import TestCharacter
 
 # Create the game
-random.seed(128) # TODO Change this if you want different random choices
+random.seed(0) # TODO Change this if you want different random choices
 g = Game.fromfile('map.txt')
 g.add_monster(SelfPreservingMonster("selfpreserving", # name
                                     "S",              # avatar
@@ -25,7 +25,7 @@ g.add_monster(SelfPreservingMonster("selfpreserving", # name
 g.add_character(TestCharacter("me", # name
                               "C",  # avatar
                               0, 0  # position
-).kindaInit())
+))
 
 # Run!
 g.go(1)

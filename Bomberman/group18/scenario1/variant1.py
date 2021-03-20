@@ -8,7 +8,7 @@ sys.path.insert(1, '..')
 from game import Game
 
 # TODO This is your code!
-sys.path.insert(1, '../groupNN')
+sys.path.insert(1, '../group18')
 
 # Uncomment this if you want the empty test character
 from variant1Char import TestCharacter
