@@ -20,6 +20,7 @@ class TestCharacter(CharacterEntity):
         self.bombX = 0
         self.bombY = 0
         self.bombActive = 0
+        self.justStarted = True
         
     
     def getActionVector(self, action):
@@ -346,6 +347,14 @@ class TestCharacter(CharacterEntity):
     
     
     def do(self, wrld):
+        if self.justStarted:
+            self.justStarted = False
+            self.state = 1
+            self.place_bomb()
+            self.bombTimer = 0
+            self.bombActive = 1
+            self.bombX = self.x
+            self.bombY = self.y
         if self.state == 0: #exploring
             if self.isMonsterXAway(self, wrld, 5): #if close to monster, place bomb because scared
                 self.state = 1
